@@ -3,41 +3,21 @@ package com.example.realmdatabase
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import androidx.lifecycle.*
 import com.example.realmdatabase.databinding.ActivityMainBinding
-import io.realm.Realm
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.realmdatabase.databinding.ItemContactBinding
+import java.util.UUID
 
-class MainActivity : AppCompatActivity(), LifecycleObserver {
+
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private val defaultLifecycleObserver = object : DefaultLifecycleObserver {
-        override fun onCreate(owner: LifecycleOwner) {
-            super.onCreate(owner)
-            Log.d("Main", "DefaultLifecycleObserver - onCreate")
-        }
-
-        override fun onStart(owner: LifecycleOwner) {
-            super.onStart(owner)
-            Log.d("Main", "DefaultLifecycleObserver - onStart")
-        }
-
-        override fun onResume(owner: LifecycleOwner) {
-            super.onResume(owner)
-            Log.d("Main", "DefaultLifecycleObserver - onResume")
-        }
-    }
-
-    private val viewModel : MainViewModel by viewModel()
+    private lateinit var bind: ItemContactBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycle.addObserver(defaultLifecycleObserver)
-
+        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -52,10 +32,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         binding.fabAddContact.setOnClickListener {
             startActivity(Intent(this, AddContactActivity::class.java))
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(defaultLifecycleObserver)
+        adapter.setOnClickListener(object :
+            ContactsAdapter.OnClickListener {
+            override fun onClick(position: Int, model: Contact) {
+                viewModel.deleteContact(position)
+            }
+        })
     }
 }

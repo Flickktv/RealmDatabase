@@ -29,6 +29,17 @@
             android:textSize="13sp"
             tools:text="+7 999 999 99 99" />
 
+        <Button
+            android:id="@+id/btnMake"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_restore_from_trash_24" />
+        <Button
+            android:id="@+id/btvUpdate"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_update_24" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
